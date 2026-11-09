@@ -1,0 +1,30 @@
+# ---- Audio: never upload it. Everyone downloads it from OSF (see README) ----
+*.wav
+*.flac
+*.mp3
+
+# Small audio files made by measure_tokens.praat
+03_annotated/vowels/
+03_annotated/tokens/
+04_reliability/vowels/
+04_reliability/tokens/
+
+# Too large for GitHub (about 30-40 MB); regenerate with extract_w2v2_layers.py
+w2v2_layers.csv
+
+# Course materials and private files: never upload (copyright / private feedback)
+Week*.pdf
+*.pages
+00_admin/private/
+
+# Python, R and Mac clutter
+__pycache__/
+*.pyc
+vot_env/
+.venv/
+.Rhistory
+.RData
+.Rproj.user/
+Rplots.pdf
+.DS_Store
+~$*

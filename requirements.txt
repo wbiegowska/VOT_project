@@ -1,0 +1,7 @@
+# Python packages for VOT_project_scripts/extract_w2v2_layers.py and extract_egemaps.py
+# Versions of torch/torchaudio as pinned in the course tutorial (speech_recognition_pipeline_tutorial.py)
+torch==2.7.0
+torchaudio==2.7.0
+pandas
+textgrid
+opensmile
