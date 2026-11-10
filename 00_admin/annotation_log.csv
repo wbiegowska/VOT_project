@@ -1,16 +1,16 @@
 file,owner,sampling_Hz,snr_dB,webmaus_ok,words_missing,cl?_tokens,minutes,notes
-PL_F_polish3,Weronika,44100,27.4,yes,,,,
-FA_F_farsi39,Weronika,44100,52.7,yes,,,,
-EN_F_english412,Weronika,44100,30.5,yes,,,,
-PL_F_polish9,Weronika,44100,34.1,yes,,,,
-FA_F_farsi4,Weronika,44100,32.5,yes,,,,
-EN_F_english100,Weronika,44100,57.4,yes,,,,
-PL_F_polish11,Weronika,44100,28.7,yes,,,,
-FA_F_farsi10,Weronika,44100,31.7,yes,,,,
-EN_F_english386,Weronika,44100,29.3,yes,,,,
-PL_M_polish13,Weronika,44100,60.4,yes,,,,
-FA_M_farsi1,Weronika,44100,32.2,yes,,,,
-EN_M_english102,Weronika,44100,75.7,yes,,,,
-PL_M_polish32,Weronika,44100,37.3,yes,,,,
-FA_M_farsi24,Weronika,44100,35.3,yes,,,,
-EN_M_english1,Weronika,44100,27.1,yes,,,,
+PL_F_polish3,Weronika,44100,27.4,yes,none,,,my calibration speaker; a bit of background hiss (lowest SNR of the Polish ones); 2 longer pauses; Bob runs into the pause after it in WebMAUS but the start is fine
+FA_F_farsi39,Weronika,44100,52.7,yes,none,,,reads slowly with lots of pauses (around 1 s each); very clean recording
+EN_F_english412,Weronika,44100,30.5,yes,none,,,reads pretty fast; some background hiss
+PL_F_polish9,Weronika,44100,34.1,yes,none,,,no problems; normal speed
+FA_F_farsi4,Weronika,44100,32.5,yes,none,,,one longer pause; otherwise fine
+EN_F_english100,Weronika,44100,57.4,yes,none,,,clean recording; probably a hesitation around 'with' (WebMAUS stretched it) so check where peas starts
+PL_F_polish11,Weronika,44100,28.7,yes,none,,,some background hiss; kids runs into the pause in WebMAUS but the start looks ok
+FA_F_farsi10,Weronika,44100,31.7,yes,none,,,very slow reader with pauses; Bob and big are stretched in WebMAUS (over 1 s) so check the word starts
+EN_F_english386,Weronika,44100,29.3,yes,none,,,some background hiss; no long pauses
+PL_M_polish13,Weronika,44100,60.4,yes,none,,,reads fast; very clean recording
+FA_M_farsi1,Weronika,44100,32.2,yes,none,,,one longer pause; Bob and kids run into the pause in WebMAUS but the starts are fine
+EN_M_english102,Weronika,44100,75.7,yes,none,,,cleanest recording; kids runs into the pause in WebMAUS
+PL_M_polish32,Weronika,44100,37.3,yes,none,,,reads fast; fine
+FA_M_farsi24,Weronika,44100,35.3,yes,none,,,no long pauses; fine
+EN_M_english1,Weronika,44100,27.1,yes,none,,,quite a lot of background hiss (lowest SNR overall); one longer pause
