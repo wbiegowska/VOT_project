@@ -138,9 +138,14 @@ def main():
             grid_bytes, elapsed = res
             with open(orig_tg, "wb") as f:
                 f.write(grid_bytes)
-            with open(annot_tg, "wb") as f:
-                f.write(grid_bytes)
-            print(f"DONE in {elapsed:.1f}s -> Saved TextGrid to 02_webmaus_original & 03_annotated")
+            # Never overwrite a working copy: it may already contain our manual annotation.
+            if os.path.exists(annot_tg):
+                print(f"DONE in {elapsed:.1f}s -> Saved to 02_webmaus_original "
+                      f"(03_annotated copy already exists, left untouched)")
+            else:
+                with open(annot_tg, "wb") as f:
+                    f.write(grid_bytes)
+                print(f"DONE in {elapsed:.1f}s -> Saved TextGrid to 02_webmaus_original & 03_annotated")
             aligned_speakers.append(spk)
         else:
             print(f"FAILED: {res}")
