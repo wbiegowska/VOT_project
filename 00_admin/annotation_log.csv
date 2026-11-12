@@ -14,3 +14,4 @@ EN_M_english102,Weronika,44100,75.7,yes,none,,,cleanest recording; kids runs int
 PL_M_polish32,Weronika,44100,37.3,yes,none,,,reads fast; fine
 FA_M_farsi24,Weronika,44100,35.3,yes,none,,,no long pauses; fine
 EN_M_english1,Weronika,44100,27.1,yes,none,,,quite a lot of background hiss (lowest SNR overall); one longer pause
+EN_F_english109,Ala,44100,35.6,yes,none,,,my calibration speaker; slight extra noise/frication on 'fresh' ([sfɹɛʃ]); target words clear
