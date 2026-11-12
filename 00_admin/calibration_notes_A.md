@@ -1,7 +1,7 @@
 # Calibration notes – Ala
 
 Speaker: **EN_F_english109** (My speaker, calibration version in `04_reliability/calibration_A`)
-Time it took me: ~45m (first speaker, working carefully through each word)
+Time it took me: ~1h and half (first speaker, working carefully through each word)
 
 ## What I did for each word
 
