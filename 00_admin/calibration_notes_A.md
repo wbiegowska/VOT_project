@@ -30,3 +30,11 @@ Time it took me: ~1h and half (first speaker, working carefully through each wor
 - **B3 for voiced stops (`Bob`, `go`):** Confirming whether we align on the first vowel-shaped cycle vs. the first full-amplitude cycle.
 - **B1 when there is no silent closure (`go` after "will"):** Checking our exact amplitude-drop threshold after `[l]`.
 - **B4 in `call` (`[O:]` into `[l]`):** Comparing where we each cut the vowel before the lateral transition.
+
+## Calibration Log: PL_F_polish3.TextGrid
+
+* **Logged Decisions:**
+  1. **`Bob` (`B4` Transition):** Aligned `B4` with the offset of periodic voicing/formant termination into the closure boundary.
+  2. **`can` (`B1` Transition / Continuous Speech):** Placed `B1` cleanly on the WebMAUS `i: | k` boundary line where preceding vowel energy terminates and the silent closure of `/k/` begins.
+  3. **`bags` (`v` Interval Span):** Maintained a single unified macro-interval `v` spanning continuously from vowel onset through the medial stop closure/release to the end of the final fricative.
+  4. **`go` (`cl` and `rel` Alignment):** Cleanly isolated prevoiced closure and release spike matching the 3-tier voiced stop segmentation protocol.
