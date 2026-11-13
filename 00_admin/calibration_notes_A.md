@@ -32,6 +32,9 @@ Time it took me: ~1h and half (first speaker, working carefully through each wor
 - **B4 in `call` (`[O:]` into `[l]`):** Comparing where we each cut the vowel before the lateral transition.
 
 ## Calibration Log: PL_F_polish3.TextGrid
+Speaker: **PL_F_polish3** (Weronika's speaker, calibration version in `04_reliability/calibration_A`)
+Time it took me: ~1h (second speaker, working a bit easier through each word compared to the first one)
+
 
 * **Logged Decisions:**
   1. **`Bob` (`B4` Transition):** Aligned `B4` with the offset of periodic voicing/formant termination into the closure boundary.
