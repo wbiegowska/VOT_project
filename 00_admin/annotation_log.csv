@@ -1,5 +1,5 @@
 file,owner,sampling_Hz,snr_dB,webmaus_ok,words_missing,cl?_tokens,minutes,notes
-PL_F_polish3,Weronika,44100,27.4,yes,none,,,my calibration speaker; a bit of background hiss (lowest SNR of the Polish ones); 2 longer pauses; Bob runs into the pause after it in WebMAUS but the start is fine
+PL_F_polish3,Weronika,44100,27.4,yes,none,bags,35,my calibration speaker; a bit of background hiss (lowest SNR of the Polish ones); 2 longer pauses; WebMAUS put pauses before call / peas / toy but the closures are normal length (under 150 ms) so I kept cl; bags = cl? because the d of red is released into the b closure; Bob and bags fully prevoiced; creaky voice at the end of peas / Bob / kids / bags (pitch drops to about half) so f0 can be wrong there; final b of Bob audibly released; really long VOT in toy (124 ms) and kids (100 ms)
 FA_F_farsi39,Weronika,44100,52.7,yes,none,,,reads slowly with lots of pauses (around 1 s each); very clean recording
 EN_F_english412,Weronika,44100,30.5,yes,none,,,reads pretty fast; some background hiss
 PL_F_polish9,Weronika,44100,34.1,yes,none,,,no problems; normal speed
