@@ -16,7 +16,9 @@ Time it took me: 1h (first speaker, so slower than normal)
 | bags | cl? | 6 ms | same as toy: d of "red" and b merge, so cl?. The b burst is really weak |
 | go | 16 ms | 14 ms | closure voiced all the way after the l of "will", hard to find B1, used the point where the waves suddenly get small |
 
-## Rules I used 
+## Rules I used
+
+> These were my calibration rules. The final shared rules for both of us are in `00_admin/annotation_rules.md`. 
 
 1. **B1 (closure start):** where the big waves / dark bands of the previous vowel end, NOT where all voicing stops. Small waves after that = voicing leaking into the closure, they stay inside cl.
 2. **B2 (burst):** first spike after the closure. If there are several spikes (like in k), take the first one.

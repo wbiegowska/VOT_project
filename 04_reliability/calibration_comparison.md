@@ -31,6 +31,8 @@ VOT is our main measure, so that column matters most.
 
 ## What to decide on the call
 
+> Decided: see `00_admin/annotation_rules.md`.
+
 1. **Vowel end (B4)** is where we disagree most: polish3 call (+64), kids (+66), go (-43), bags (+183), english109 call (+32). We need one rule for B4 before l, before m, and when the voice gets creaky (see rules 7 and 11 in calibration_notes_W).
 2. **bags in polish3:** in A, v runs through the g closure and the z. v should only be the vowel, otherwise vowel duration, f0/F1 at the midpoint and voice quality get measured on the wrong sounds. Same thing to check in Ala's own speakers.
 3. **B1 after a released stop** (polish3 toy +38, go +25, kids +11): put B1 right after the release, where it goes quiet (rule 10). Go by the waveform, not the WebMAUS line.
