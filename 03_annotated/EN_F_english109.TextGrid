@@ -1569,7 +1569,7 @@ item []:
         intervals [3]:
             xmin = 1.0751040723981902 
             xmax = 1.144135355406437 
-            text = "relv" 
+            text = "rel" 
         intervals [4]:
             xmin = 1.144135355406437 
             xmax = 1.317411940495704 
@@ -1585,7 +1585,7 @@ item []:
         intervals [7]:
             xmin = 7.1644171535279915 
             xmax = 7.192962624346262 
-            text = "relv" 
+            text = "rel" 
         intervals [8]:
             xmin = 7.192962624346262 
             xmax = 7.46 
@@ -1672,10 +1672,10 @@ item []:
             text = "v" 
         intervals [29]:
             xmin = 19.22502270281766 
-            xmax = 19.92 
+            xmax = 19.914585312420105 
             text = "" 
         intervals [30]:
-            xmin = 19.92 
+            xmin = 19.914585312420105 
             xmax = 19.934571679601348 
             text = "cl" 
         intervals [31]:
