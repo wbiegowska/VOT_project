@@ -15,17 +15,17 @@ PL_M_polish32,Weronika,44100,37.3,yes,none,,,reads fast; fine
 FA_M_farsi24,Weronika,44100,35.3,yes,none,,,no long pauses; fine
 EN_M_english1,Weronika,44100,27.1,yes,none,,,quite a lot of background hiss (lowest SNR overall); one longer pause
 EN_F_english109,Ala,44100,35.6,yes,none,toy; bags,41,my calibration speaker; slight extra noise/frication on 'fresh' ([sfɹɛʃ]); target words clear
-PL_F_polish6,Ala,44100,,yes,none,none,42,target words clear; final devoicing on peas ([pʰiːs]) and [a̝sx] for Ask; prevoiced/lenited stops like big ([biɡ̥])
-PL_F_polish10,Ala,44100,,yes,none,Bob; big,48,target words clear; false start/stumble near Stella ([ʃ̩t stila]); devoiced bags ([baːks]); unusual these ([d̪ɪs]/[d̪oʊs]); check boundaries carefully
-PL_F_polish17,Ala,44100,,yes,none,none,48,target words clear; extra pauses; will appears as [wĭ l] before go; check boundaries around pauses
-PL_M_polish21,Ala,44100,,yes,none,none,48,target words clear; thick accent
-PL_M_polish39,Ala,44100,,yes,none,go,42,target words clear; extra pauses
-FA_F_farsi3,Ala,44100,,yes,none,Bob,42,"pause and repetition around 'snacks'; epenthetic vowels before clusters (e.g., esnek)"
-FA_F_farsi33,Ala,44100,,yes,none,toy; bags,43,says 'we can scoop' instead of 'she can scoop' (adjusted .txt to match audio)
-FA_F_farsi8,Ala,44100,,yes,none,none,40,no major disfluencies; check final release/voicing on Bob ([bɔ]) and kids ([kɪd̥s])
-FA_M_farsi13,Ala,44100,,yes,none,big,35,no major disfluencies; epenthetic vowels before s-clusters and unreleased final stops
-FA_M_farsi27,Ala,44100,,yes,none,call; go,46,"replaces FA_M_farsi37; also speaks German, Arabic, French"
-EN_F_english414,Ala,44100,,yes,none,call; peas; toy; kids; go,47,says 'we'll go' instead of 'we will go' (adjusted .txt to match audio)
-EN_F_english474,Ala,44100,,yes,none,none,38,no problems noted; target words clear
-EN_M_english59,Ala,44100,,yes,none,none,38,"no missing words; note [ʃnoʊ] for snow, [kʰɪts] for kids, and unreleased/final stops"
-EN_M_english339,Ala,44100,,yes,none,none,41,no problems noted; target words clear
+PL_F_polish6,Ala,44100,37.1,yes,none,none,42,target words clear; final devoicing on peas ([pʰiːs]) and [a̝sx] for Ask; prevoiced/lenited stops like big ([biɡ̥])
+PL_F_polish10,Ala,44100,35.5,yes,none,Bob; big,48,target words clear; false start/stumble near Stella ([ʃ̩t stila]); devoiced bags ([baːks]); unusual these ([d̪ɪs]/[d̪oʊs]); check boundaries carefully
+PL_F_polish17,Ala,44100,41.5,yes,none,none,48,target words clear; extra pauses; will appears as [wĭ l] before go; check boundaries around pauses
+PL_M_polish21,Ala,44100,48.7,yes,none,none,48,target words clear; thick accent
+PL_M_polish39,Ala,44100,30.4,yes,none,go,42,target words clear; extra pauses
+FA_F_farsi3,Ala,44100,35.8,yes,none,Bob,42,"pause and repetition around 'snacks'; epenthetic vowels before clusters (e.g., esnek)"
+FA_F_farsi33,Ala,44100,30.3,yes,none,toy; bags,43,says 'we can scoop' instead of 'she can scoop' (adjusted .txt to match audio)
+FA_F_farsi8,Ala,44100,28.0,yes,none,none,40,no major disfluencies; check final release/voicing on Bob ([bɔ]) and kids ([kɪd̥s])
+FA_M_farsi13,Ala,44100,33.3,yes,none,big,35,no major disfluencies; epenthetic vowels before s-clusters and unreleased final stops
+FA_M_farsi27,Ala,44100,42.4,yes,none,call; go,46,"replaces FA_M_farsi37; also speaks German, Arabic, French"
+EN_F_english414,Ala,44100,23.6,yes,none,call; peas; toy; kids; go,47,says 'we'll go' instead of 'we will go' (adjusted .txt to match audio)
+EN_F_english474,Ala,44100,35.2,yes,none,none,38,no problems noted; target words clear
+EN_M_english59,Ala,44100,44.5,yes,none,none,38,"no missing words; note [ʃnoʊ] for snow, [kʰɪts] for kids, and unreleased/final stops"
+EN_M_english339,Ala,44100,32.7,yes,none,none,41,no problems noted; target words clear
