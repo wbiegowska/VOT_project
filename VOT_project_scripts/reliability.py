@@ -41,6 +41,13 @@ PAIRS = [
     ("calibration_W/FA_F_farsi8", "Weronika"),
 ]
 WORDS = ["call", "peas", "Bob", "big", "toy", "kids", "bags", "go"]  # order in the paragraph
+# tokens that cannot count as an independent comparison
+EXCLUDE = {
+    ("FA_F_farsi10", "bags"): "WebMAUS had put 'bags' about 1.5 s too early, on 'into'; Weronika's first "
+                              "version followed WebMAUS, Ala's was on the real 'bags'. Weronika's file was "
+                              "then corrected to Ala's word (25 Nov), so the two versions are no longer "
+                              "independent",
+}
 VOICED = {"Bob", "big", "bags", "go"}
 
 
@@ -157,12 +164,14 @@ def main():
             o, c = orig[w], check[w]
             # same stretch of audio? (the two tokens must overlap in time)
             same = int(min(o["B4"], c["B4"]) > max(o["B1"], c["B1"]))
-            if not same:
+            reason = EXCLUDE.get((name, w), "")
+            if not same and not reason:
                 problems.append(f"{name} '{w}': the two versions do not overlap (original "
                                 f"{o['B1']:.3f}-{o['B4']:.3f} s, re-annotation {c['B1']:.3f}-{c['B4']:.3f} s): "
                                 f"different tokens, left out of all statistics")
             row = {"file": name, "group": name[:2], "owner": owners.get(name, ""), "checker": checker,
                    "word": w, "voicing": "voiced" if w in VOICED else "voiceless", "same_token": same,
+                   "excluded": reason if reason else ("different tokens" if not same else ""),
                    "label_orig": o["label"], "label_check": c["label"],
                    "label_agree": int(o["label"] == c["label"])}
             for b in ["B1", "B2", "B3", "B4"]:
@@ -177,8 +186,8 @@ def main():
             rows.append(row)
     tok = pd.DataFrame(rows)
     tok.to_csv(os.path.join(REL, "reliability_tokens.csv"), index=False, lineterminator="\n")
-    excluded = tok[tok.same_token == 0]
-    tok = tok[tok.same_token == 1].copy()
+    excluded = tok[tok.excluded != ""]
+    tok = tok[tok.excluded == ""].copy()
 
     # boundaries are compared as times; express them in ms so the summary is in one unit
     for b in ["B1", "B2", "B3", "B4"]:
@@ -238,9 +247,7 @@ def write_markdown(tok, summ, tab, po, kappa, problems, excluded):
         L.append(f"| {r.file} | {r.owner} | {r.checker} | {r.tokens} |")
     L.append(f"\n**{len(tok)} tokens** compared ({len(tok) / 240 * 100:.0f}% of the 240 tokens).")
     for _, r in excluded.iterrows():
-        L.append(f"Left out: {r.file} *{r.word}*: the two annotators marked different stretches of audio "
-                 f"(original B2 at {r.B2_orig_s:.3f} s, re-annotation B2 at {r.B2_check_s:.3f} s), "
-                 f"so it is not a boundary disagreement (see the notes at the end).")
+        L.append(f"Left out: {r.file} *{r.word}*: {r.excluded}.")
     L.append("")
 
     L.append("## 1. Durations (the measures that go into the analysis)\n")
@@ -310,8 +317,8 @@ def write_markdown(tok, summ, tab, po, kappa, problems, excluded):
     L.append("## 6. Draft sentence for the Method section\n")
     L.append(f"> Each annotator re-annotated two speakers of the other annotator without seeing the first "
              f"version (4 speakers, one per group plus one extra Persian speaker; 32 tokens, 13% of the data). "
-             f"{len(excluded)} token was left out because the two annotators segmented different stretches of "
-             f"audio. For the remaining {len(tok)} tokens, the mean absolute difference between annotators was "
+             f"{len(excluded)} token was left out because the first annotation was on the wrong word (a "
+             f"forced-alignment error, corrected afterwards). For the remaining {len(tok)} tokens, the mean absolute difference between annotators was "
              f"{v.MAD_ms:.1f} ms for VOT (Pearson r = {v.pearson_r:.2f}, ICC(A,1) = {v.ICC_A1:.2f}; voiceless "
              f"stops ICC = {vl.ICC_A1:.2f}, voiced stops ICC = {vv.ICC_A1:.2f}), {c.MAD_ms:.1f} ms for closure "
              f"duration (tokens labelled cl by both, n = {int(c.n)}, ICC = {c.ICC_A1:.2f}) and {w.MAD_ms:.1f} ms "
@@ -319,7 +326,6 @@ def write_markdown(tok, summ, tab, po, kappa, problems, excluded):
              f"(median difference {g('B2', 'all').median_AD_ms:.1f} ms) and the vowel end (B4) the least "
              f"(mean {g('B4', 'all').MAD_ms:.1f} ms). The closure label (cl vs cl?) agreed for "
              f"{int(tok.label_agree.sum())} of {len(tok)} tokens ({100 * po:.0f}%, Cohen's kappa = {kappa:.2f}).\n")
-    L.append("(Check the wording of the excluded token once you know why the two versions differ.)\n")
     if problems:
         L.append("## Notes from the script\n")
         L += [f"- {p}" for p in problems]

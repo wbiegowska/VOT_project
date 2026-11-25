@@ -11,7 +11,7 @@ item []:
         name = "ORT-MAU" 
         xmin = 0 
         xmax = 44.17 
-        intervals: size = 103 
+        intervals: size = 100 
         intervals [1]:
             xmin = 0 
             xmax = 1.05 
@@ -342,86 +342,74 @@ item []:
             text = "these" 
         intervals [83]:
             xmin = 32.99 
-            xmax = 33.2 
+            xmax = 34.50263576348515 
             text = "things" 
         intervals [84]:
-            xmin = 33.2 
-            xmax = 34.13 
-            text = "into" 
-        intervals [85]:
-            xmin = 34.13 
-            xmax = 34.21 
+            xmin = 34.50263576348515 
+            xmax = 35.5376424447416 
             text = "" 
+        intervals [85]:
+            xmin = 35.5376424447416 
+            xmax = 36.16863710407842 
+            text = "into" 
         intervals [86]:
-            xmin = 34.21 
-            xmax = 34.71 
+            xmin = 36.16863710407842 
+            xmax = 36.518178546151155 
             text = "three" 
         intervals [87]:
-            xmin = 34.71 
-            xmax = 35.344989 
+            xmin = 36.518178546151155 
+            xmax = 36.95636928180172 
             text = "red" 
         intervals [88]:
-            xmin = 35.344989 
-            xmax = 35.95 
+            xmin = 36.95636928180172 
+            xmax = 38.37610726530956 
             text = "bags" 
         intervals [89]:
-            xmin = 35.95 
-            xmax = 36.25 
+            xmin = 38.37610726530956 
+            xmax = 38.89317233337722 
             text = "and" 
         intervals [90]:
-            xmin = 36.25 
-            xmax = 37.42 
+            xmin = 38.89317233337722 
+            xmax = 39.07721244235046 
             text = "we" 
         intervals [91]:
-            xmin = 37.42 
-            xmax = 38.37 
-            text = "" 
-        intervals [92]:
-            xmin = 38.37 
+            xmin = 39.07721244235046 
             xmax = 39.36 
             text = "will" 
-        intervals [93]:
+        intervals [92]:
             xmin = 39.36 
             xmax = 39.64 
             text = "go" 
-        intervals [94]:
+        intervals [93]:
             xmin = 39.64 
             xmax = 40.16 
             text = "meet" 
-        intervals [95]:
+        intervals [94]:
             xmin = 40.16 
             xmax = 40.6 
             text = "her" 
-        intervals [96]:
+        intervals [95]:
             xmin = 40.6 
             xmax = 41.47 
             text = "Wednesday" 
-        intervals [97]:
+        intervals [96]:
             xmin = 41.47 
             xmax = 41.77 
             text = "at" 
-        intervals [98]:
+        intervals [97]:
             xmin = 41.77 
-            xmax = 41.91 
+            xmax = 42.00432655649624 
             text = "the" 
-        intervals [99]:
-            xmin = 41.91 
-            xmax = 42.09 
-            text = "" 
-        intervals [100]:
-            xmin = 42.09 
-            xmax = 42.42 
+        intervals [98]:
+            xmin = 42.00432655649624 
+            xmax = 42.44251729214681 
             text = "train" 
-        intervals [101]:
-            xmin = 42.42 
-            xmax = 42.58 
-            text = "" 
-        intervals [102]:
-            xmin = 42.58 
-            xmax = 42.99 
+        intervals [99]:
+            xmin = 42.44251729214681 
+            xmax = 44.16022497589702 
             text = "station" 
-        intervals [103]:
-            xmin = 42.99 
+        intervals [100]:
+            xmin = 44.16022497589702 
             xmax = 44.17 
             text = "" 
     item [2]:
@@ -836,10 +824,10 @@ item []:
             text = "" 
         intervals [102]:
             xmin = 42.58 
-            xmax = 42.99 
+            xmax = 44.16022497589702 
             text = "s t eI S V n" 
         intervals [103]:
-            xmin = 42.99 
+            xmin = 44.16022497589702 
             xmax = 44.17 
             text = "" 
     item [3]:
@@ -1838,10 +1826,10 @@ item []:
             text = "V" 
         intervals [248]:
             xmin = 42.93 
-            xmax = 42.99 
+            xmax = 44.16022497589702 
             text = "n" 
         intervals [249]:
-            xmin = 42.99 
+            xmin = 44.16022497589702 
             xmax = 44.17 
             text = "<p:>" 
     item [4]:
@@ -1948,22 +1936,22 @@ item []:
             text = "v" 
         intervals [25]:
             xmin = 29.5436795971573 
-            xmax = 35.36408271631176 
+            xmax = 36.832434891330195 
             text = "" 
         intervals [26]:
-            xmin = 35.36408271631176 
-            xmax = 35.51480306880806 
+            xmin = 36.832434891330195 
+            xmax = 36.98185487822736 
             text = "cl?" 
         intervals [27]:
-            xmin = 35.51480306880806 
-            xmax = 35.52483963478885 
+            xmin = 36.98185487822736 
+            xmax = 37.002767205141325 
             text = "rel" 
         intervals [28]:
-            xmin = 35.52483963478885 
-            xmax = 35.70047121087974 
+            xmin = 37.002767205141325 
+            xmax = 37.378429766065516 
             text = "v" 
         intervals [29]:
-            xmin = 35.70047121087974 
+            xmin = 37.378429766065516 
             xmax = 39.328180243357345 
             text = "" 
         intervals [30]:
@@ -1972,10 +1960,10 @@ item []:
             text = "cl" 
         intervals [31]:
             xmin = 39.39652125047628 
-            xmax = 39.40580121288088 
+            xmax = 39.41358507722442 
             text = "rel" 
         intervals [32]:
-            xmin = 39.40580121288088 
+            xmin = 39.41358507722442 
             xmax = 39.58264092718473 
             text = "v" 
         intervals [33]:

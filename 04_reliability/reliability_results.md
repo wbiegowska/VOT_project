@@ -10,7 +10,7 @@ Made by `VOT_project_scripts/reliability.py` from the `seg` tiers only (no audio
 | PL_M_polish21 | Ala | Weronika | 8 |
 
 **31 tokens** compared (13% of the 240 tokens).
-Left out: FA_F_farsi10 *bags*: the two annotators marked different stretches of audio (original B2 at 35.515 s, re-annotation B2 at 36.982 s), so it is not a boundary disagreement (see the notes at the end).
+Left out: FA_F_farsi10 *bags*: WebMAUS had put 'bags' about 1.5 s too early, on 'into'; Weronika's first version followed WebMAUS, Ala's was on the real 'bags'. Weronika's file was then corrected to Ala's word (25 Nov), so the two versions are no longer independent.
 
 ## 1. Durations (the measures that go into the analysis)
 
@@ -18,14 +18,14 @@ MAD = mean absolute difference; bias = mean signed difference; LoA = 95% limits 
 
 | measure | tokens | n | MAD | median AD | max AD | ≤5 ms | ≤10 ms | bias | LoA | r | ICC [95% CI] |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| VOT | all | 31 | 10.7 | 9.2 | 23.0 | 19% | 52% | -4.1 | -27.2 to 19.0 | 0.92 | 0.92 [0.83, 0.96] |
+| VOT | all | 31 | 10.4 | 9.2 | 23.0 | 23% | 52% | -4.4 | -27.1 to 18.4 | 0.93 | 0.92 [0.83, 0.96] |
 | VOT | voiceless (p t k) | 16 | 10.8 | 10.2 | 21.4 | 12% | 50% | -1.2 | -25.6 to 23.1 | 0.93 | 0.93 [0.81, 0.97] |
-| VOT | voiced (b g) | 15 | 10.5 | 9.2 | 23.0 | 27% | 53% | -7.2 | -28.1 to 13.8 | 0.42 | 0.31 [-0.12, 0.68] |
+| VOT | voiced (b g) | 15 | 10.0 | 9.2 | 23.0 | 33% | 53% | -7.7 | -27.3 to 12.0 | 0.46 | 0.33 [-0.10, 0.69] |
 | closure | both cl (used in R) | 21 | 18.4 | 12.6 | 75.5 | 24% | 33% | 15.1 | -28.0 to 58.1 | 0.68 | 0.59 [0.15, 0.82] |
 | closure | all | 31 | 17.7 | 11.9 | 75.5 | 35% | 42% | 12.9 | -31.6 to 57.5 | 0.80 | 0.76 [0.47, 0.89] |
-| vowel | all | 31 | 30.5 | 13.9 | 214.5 | 16% | 29% | -16.5 | -115.3 to 82.2 | 0.87 | 0.80 [0.63, 0.90] |
+| vowel | all | 31 | 30.3 | 13.9 | 214.5 | 19% | 29% | -16.3 | -115.1 to 82.6 | 0.87 | 0.80 [0.63, 0.90] |
 | vowel | voiceless (p t k) | 16 | 32.4 | 14.8 | 214.5 | 25% | 31% | -21.6 | -135.2 to 91.9 | 0.86 | 0.75 [0.43, 0.91] |
-| vowel | voiced (b g) | 15 | 28.5 | 13.9 | 128.6 | 7% | 27% | -11.1 | -93.8 to 71.6 | 0.90 | 0.87 [0.66, 0.95] |
+| vowel | voiced (b g) | 15 | 28.0 | 13.9 | 128.6 | 13% | 27% | -10.6 | -93.4 to 72.3 | 0.90 | 0.87 [0.66, 0.95] |
 
 ## 2. Boundaries
 
@@ -33,7 +33,7 @@ MAD = mean absolute difference; bias = mean signed difference; LoA = 95% limits 
 |---|---|---|---|---|---|---|---|---|
 | B1 closure start | 31 | 16.5 | 11.0 | 75.5 | 39% | 48% | 65% | -7.9 |
 | B2 burst | 31 | 5.5 | 0.5 | 29.1 | 74% | 81% | 87% | 5.0 |
-| B3 vowel start | 31 | 9.0 | 8.7 | 21.6 | 26% | 65% | 97% | 0.9 |
+| B3 vowel start | 31 | 8.7 | 8.7 | 21.6 | 29% | 65% | 97% | 0.7 |
 | B4 vowel end | 31 | 22.4 | 8.4 | 200.3 | 35% | 58% | 77% | -15.6 |
 
 B1 for the 21 words labelled `cl` by both: MAD 16.3 ms, median 11.1 ms.
@@ -44,11 +44,11 @@ B1 for the 21 words labelled `cl` by both: MAD 16.3 ms, median 11.1 ms.
 |---|---|---|
 | B1 | 9.3 / 8.2 | 23.2 / -23.0 |
 | B2 | 8.9 / 8.7 | 2.3 / 1.6 |
-| B3 | 10.2 / 10.2 | 7.8 / -7.8 |
+| B3 | 9.7 / 9.7 | 7.8 / -7.8 |
 | B4 | 38.6 / -38.3 | 7.2 / 5.7 |
-| VOT | 12.0 / 1.5 | 9.4 / -9.4 |
+| VOT | 11.5 / 1.0 | 9.4 / -9.4 |
 | closure | 9.9 / 0.5 | 25.0 / 24.6 |
-| vowel | 48.5 / -48.5 | 13.7 / 13.4 |
+| vowel | 48.0 / -48.0 | 13.7 / 13.4 |
 
 ## 4. cl vs cl? labels
 
@@ -79,7 +79,7 @@ Disagreements: EN_M_english102 big (cl? / cl); EN_M_english102 bags (cl? / cl); 
 | FA_F_farsi10 | big | cl? | 4.0 / 8.2 | +4.2 | 149.5 / 149.0 | -0.5 | 298.6 / 291.6 | -7.0 | +0.0 | -0.5 | +3.8 | -3.2 |
 | FA_F_farsi10 | toy | cl? | 109.5 / 123.9 | +14.4 | 144.1 / 149.1 | +5.0 | 508.0 / 293.5 | -214.5 | -5.2 | -0.2 | +14.2 | -200.3 |
 | FA_F_farsi10 | kids | cl | 106.9 / 85.5 | -21.4 | 106.5 / 119.1 | +12.6 | 141.5 / 125.4 | -16.1 | +16.6 | +29.1 | +7.7 | -8.3 |
-| FA_F_farsi10 | go | cl | 9.3 / 17.9 | +8.6 | 68.3 / 68.6 | +0.3 | 176.8 / 167.3 | -9.5 | -0.1 | +0.1 | +8.7 | -0.9 |
+| FA_F_farsi10 | go | cl | 17.1 / 17.9 | +0.8 | 68.3 / 68.6 | +0.3 | 169.1 / 167.3 | -1.8 | -0.1 | +0.1 | +0.9 | -0.9 |
 | PL_M_polish21 | call | cl | 34.1 / 29.2 | -4.9 | 26.9 / 38.2 | +11.3 | 64.3 / 77.8 | +13.5 | -11.1 | +0.2 | -4.7 | +8.8 |
 | PL_M_polish21 | peas | cl | 35.7 / 20.6 | -15.1 | 83.0 / 100.1 | +17.1 | 212.1 / 239.8 | +27.7 | -15.9 | +1.2 | -13.8 | +13.9 |
 | PL_M_polish21 | Bob | cl | 30.1 / 9.7 | -20.4 | 93.8 / 92.4 | -1.4 | 166.7 / 198.9 | +32.2 | +0.2 | -1.2 | -21.6 | +10.7 |
@@ -101,11 +101,8 @@ Tokens with a boundary more than 20 ms apart: 17 of 31.
 
 ## 6. Draft sentence for the Method section
 
-> Each annotator re-annotated two speakers of the other annotator without seeing the first version (4 speakers, one per group plus one extra Persian speaker; 32 tokens, 13% of the data). 1 token was left out because the two annotators segmented different stretches of audio. For the remaining 31 tokens, the mean absolute difference between annotators was 10.7 ms for VOT (Pearson r = 0.92, ICC(A,1) = 0.92; voiceless stops ICC = 0.93, voiced stops ICC = 0.31), 18.4 ms for closure duration (tokens labelled cl by both, n = 21, ICC = 0.59) and 30.5 ms for vowel duration (ICC = 0.80). The burst (B2) was the most consistent boundary (median difference 0.5 ms) and the vowel end (B4) the least (mean 22.4 ms). The closure label (cl vs cl?) agreed for 24 of 31 tokens (77%, Cohen's kappa = 0.32).
-
-(Check the wording of the excluded token once you know why the two versions differ.)
+> Each annotator re-annotated two speakers of the other annotator without seeing the first version (4 speakers, one per group plus one extra Persian speaker; 32 tokens, 13% of the data). 1 token was left out because the first annotation was on the wrong word (a forced-alignment error, corrected afterwards). For the remaining 31 tokens, the mean absolute difference between annotators was 10.4 ms for VOT (Pearson r = 0.93, ICC(A,1) = 0.92; voiceless stops ICC = 0.93, voiced stops ICC = 0.33), 18.4 ms for closure duration (tokens labelled cl by both, n = 21, ICC = 0.59) and 30.3 ms for vowel duration (ICC = 0.80). The burst (B2) was the most consistent boundary (median difference 0.5 ms) and the vowel end (B4) the least (mean 22.4 ms). The closure label (cl vs cl?) agreed for 24 of 31 tokens (77%, Cohen's kappa = 0.32).
 
 ## Notes from the script
 
 - FA_F_farsi10.TextGrid: token 7 (vowel 37.003-37.301 s) lies in the WebMAUS word 'we', expected 'bags' -> taken as 'bags'
-- FA_F_farsi10 'bags': the two versions do not overlap (original 35.364-35.700 s, re-annotation 36.832-37.301 s): different tokens, left out of all statistics
