@@ -30,7 +30,7 @@ They come from comparing our two calibration speakers (see `04_reliability/calib
 2. **B3** (vowel start)
 3. **B4** (vowel end)
 4. **B1** (closure start) + decide `cl` or `cl?`
-5. Label, play `v` on its own (you should hear ONLY the vowel, no l / m / z / g), do the quick check in section 10, save.
+5. Label, play `v` on its own: at the END you should hear only the vowel, no l / m / z / g after it. Hearing a little bit of the stop at the START is normal (see section 5) – don't move B3 because of it. Then do the quick check in section 10 and save.
 
 ---
 
@@ -39,6 +39,7 @@ They come from comparing our two calibration speakers (see `04_reliability/calib
 - B2 = at the start of the **first spike** after the closure. In the spectrogram: a thin dark vertical line going up through many frequencies.
 - Several spikes (common for k and g): take the **first** one.
 - No clear spike (often b or g with a voiced closure): the point where the smooth closure waves suddenly get disturbed / irregular. There's usually a faint vertical line in the spectrogram there.
+- No burst at all after a silent closure (the flat line just turns into the vowel, e.g. farsi39 "big"): B2 = where the flat line first starts to move, B3 = start of the first vowel cycle. `rel` will be only a few ms. Write "no visible burst" in the log notes.
 - We want the burst right before the vowel or the aspiration. A small spike earlier in the closure can be the release of the previous word's consonant (e.g. the d of "red") – that is NOT B2.
 
 ## 5. B3 – vowel start
@@ -47,8 +48,9 @@ One rule for all stops: **B3 = start of the first cycle that belongs to the vowe
 
 - **p t k:** the first regular wave after the hiss that keeps repeating into the vowel. Praat often draws pulse lines inside the hiss – if you can't see repeating waves there, it's not voicing yet.
 - **b g with a voiced closure (prevoiced):** small smooth waves can continue through the burst – those don't count. B3 = the first cycle with the vowel's shape (bigger and jagged/spiky), i.e. the spot where the line first plunges into the first big wave. NOT the first full-size cycle (too subjective, it gave us 4–7 ms differences).
-- **b g without voicing in the closure:** same as p t k.
+- **b g without voicing in the closure** (flat line before the burst): same as p t k. The first waves after the burst can be tiny and smooth (about 1/10 of the vowel, no pulse lines, no dark bands yet) because the lips are only just opening. They still count if they repeat at the speaker's pitch and grow straight into the big vowel waves without a break (e.g. farsi39 Bob). Small waves BEFORE the burst (prevoicing) never count.
 - Spectrogram check: the dark band at the bottom and the vowel's formant bands start here.
+- **Don't place B3 by ear.** The start of the vowel always sounds a bit like the stop, because the vowel's formants are still moving away from the closure. That movement is part of the vowel – our F1 and f0 at 10% measure it on purpose. Go by the waveform.
 
 ## 6. B4 – vowel end (the most important one)
 
@@ -74,10 +76,10 @@ In the spectrogram the vowel's upper dark bands (F2 and higher) end or suddenly 
 | l | jagged → smooth rounded waves. The waves don't always get smaller, so go by the shape | call |
 | m | flat-topped / jagged → smooth triangle-like waves, only the bottom band stays strong | go |
 | z | start of the hiss (noise in the waveform, dark fuzz high up in the spectrogram) | peas |
-| f | where the big jagged waves suddenly shrink; small waves / hiss after that = f | toy |
+| f | where the vowel waves shrink for the last time and the f hiss starts. Careful: "oy" is a diphthong, so the waves already get smaller when it moves to its "ee"-like end – that part is still the vowel. B4 is at the second drop, not the first. If the hiss builds up slowly, go by where the big waves shrink (the small waves after that are the lip already touching the teeth) | toy |
 | pause | end of the last regular cycle | – |
 
-**Creaky voice:** if the voice gets creaky at the end (pitch line suddenly drops to about half, pulse lines twice as far apart, each wave = one sharp spike + ripples, dark vertical lines going high up in the spectrogram), it is STILL the vowel. Keep it inside `v` and put B4 where the spiky creaky waves turn into smooth humps (or stop). Write the word in the log notes (e.g. "creak: kids, bags") because f0 can be wrong there.
+**Creaky voice:** if the voice gets creaky at the end (pitch line suddenly drops to about half OR disappears because the pulses become irregular, pulse lines further apart or uneven, each wave = one sharp spike + ripples, dark vertical lines going high up in the spectrogram), it is STILL the vowel. Keep it inside `v` and put B4 where the spiky creaky waves turn into smooth humps (or stop). Write the word in the log notes (e.g. "creak: kids, bags") because f0 can be wrong there.
 
 **Breathy end:** if the vowel fades into an "h"-like breath, B4 = end of the last regular cycle.
 
