@@ -5,3 +5,5 @@ torchaudio==2.7.0
 pandas
 textgrid
 opensmile
+soundfile
+scipy
