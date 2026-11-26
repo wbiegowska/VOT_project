@@ -7,6 +7,9 @@ with the owner's version in 03_annotated, word by word, straight from the "seg" 
   - the 4 boundaries B1 (closure start), B2 (burst), B3 (vowel start), B4 (vowel end)
   - closure duration (B2-B1), VOT (B3-B2), vowel duration (B4-B3)
   - the closure label (cl vs cl?)
+  - voicing proportion in the closure, if measure_tokens.praat has been run on the two
+    reliability folders (results name "tokens_check", export audio off); the owner's values
+    come from 03_annotated/tokens.txt
 
 Writes (LF line endings) into 04_reliability/:
   reliability_tokens.csv   one row per word: both versions + differences (re-annotation - original, ms)
@@ -49,6 +52,11 @@ EXCLUDE = {
                               "independent",
 }
 VOICED = {"Bob", "big", "bags", "go"}
+# boundaries the owner moved AFTER the reliability check (after seeing the other version):
+# the analysis uses the new value, the comparison uses the blind original
+ORIGINAL_BEFORE_CHECK = {
+    ("FA_F_farsi10", "go"): {"B3": 39.40580121288088},  # moved to 39.4136 on 25 Nov (Weronika)
+}
 
 
 def read_textgrid(path):
@@ -153,6 +161,19 @@ def summarise(df, measure, subset):
 def main():
     owners = pd.read_csv(os.path.join(ROOT, "00_admin", "speakers.csv")).set_index("file")["owner"]
     rows, problems = [], []
+    # Praat measurements (optional): owner = 03_annotated/tokens.txt, re-annotation = tokens_check.txt
+    na = ["--undefined--", ""]
+    praat_o = praat_c = None
+    checks = [os.path.join(REL, d, "tokens_check.txt") for d in ("calibration_A", "calibration_W")]
+    if os.path.exists(os.path.join(ANN, "tokens.txt")) and all(os.path.exists(f) for f in checks):
+        praat_o = pd.read_csv(os.path.join(ANN, "tokens.txt"), sep="\t", na_values=na)
+        praat_c = pd.concat([pd.read_csv(f, sep="\t", na_values=na) for f in checks])
+
+    def praat_value(table, name, start, col):
+        if table is None:
+            return np.nan
+        hit = table[(table.file == name) & ((table.clStart - start).abs() < 0.0006)]
+        return hit[col].iloc[0] if len(hit) == 1 else np.nan
     for rel_name, checker in PAIRS:
         name = os.path.basename(rel_name)
         orig, p1 = tokens_from_grid(os.path.join(ANN, name + ".TextGrid"))
@@ -161,7 +182,11 @@ def main():
         for w in WORDS:
             if w not in orig or w not in check:
                 continue
-            o, c = orig[w], check[w]
+            o, c = dict(orig[w]), check[w]
+            for b, t in ORIGINAL_BEFORE_CHECK.get((name, w), {}).items():
+                problems.append(f"{name} '{w}': {b} moved by the owner after the check "
+                                f"({t:.4f} -> {o[b]:.4f} s); the comparison uses the original {t:.4f} s")
+                o[b] = t
             # same stretch of audio? (the two tokens must overlap in time)
             same = int(min(o["B4"], c["B4"]) > max(o["B1"], c["B1"]))
             reason = EXCLUDE.get((name, w), "")
@@ -183,6 +208,9 @@ def main():
                 row[f"{meas}_orig"] = round((o[e] - o[s]) * 1000, 1)
                 row[f"{meas}_check"] = round((c[e] - c[s]) * 1000, 1)
                 row[f"{meas}_diff"] = round(row[f"{meas}_check"] - row[f"{meas}_orig"], 1)
+            row["voicingProp_orig"] = praat_value(praat_o, name, o["B1"], "voicingProp")
+            row["voicingProp_check"] = praat_value(praat_c, name, c["B1"], "voicingProp")
+            row["voicingProp_diff"] = round(row["voicingProp_check"] - row["voicingProp_orig"], 3)
             rows.append(row)
     tok = pd.DataFrame(rows)
     tok.to_csv(os.path.join(REL, "reliability_tokens.csv"), index=False, lineterminator="\n")
@@ -208,6 +236,18 @@ def main():
             summ.append(summarise(sdf, meas, sname))
         if meas in ("B1", "clDur"):
             summ.append(summarise(both_cl, meas, "both cl (used in R)"))
+    have_vp = tok.voicingProp_orig.notna().any() and tok.voicingProp_check.notna().any()
+    if have_vp:
+        vp = tok.dropna(subset=["voicingProp_orig", "voicingProp_check"])
+        vp_cl = vp[(vp.label_orig == "cl") & (vp.label_check == "cl")]
+        for sname, sdf in [("all", vp), ("both cl (used in R)", vp_cl),
+                           ("voiceless (p t k)", vp_cl[vp_cl.voicing == "voiceless"]),
+                           ("voiced (b g)", vp_cl[vp_cl.voicing == "voiced"])]:
+            r = summarise(sdf, "voicingProp", sname)
+            for k in ["pct_within_5ms", "pct_within_10ms", "pct_within_20ms"]:
+                r[k] = np.nan                                   # not meaningful for a proportion
+            r["pct_within_0.1"] = 100 * ((sdf.voicingProp_check - sdf.voicingProp_orig).abs() <= 0.1).mean()
+            summ.append(r)
     summ = pd.DataFrame(summ)
     # boundaries: correlation/ICC of absolute times are meaningless (they span the whole file)
     summ.loc[summ.measure.str.startswith("B"), ["mean_orig_ms", "mean_check_ms", "pearson_r", "ICC_A1",
@@ -222,8 +262,8 @@ def main():
     pe = sum((tok.label_orig == l).mean() * (tok.label_check == l).mean() for l in labs)
     kappa = (po - pe) / (1 - pe) if pe < 1 else np.nan
 
-    write_markdown(tok, summ, tab, po, kappa, problems, excluded)
-    make_figure(tok, summ)
+    write_markdown(tok, summ, tab, po, kappa, problems, excluded, have_vp)
+    make_figure(tok, summ, have_vp)
     print(f"{len(tok)} tokens compared; label agreement {100 * po:.1f}% (kappa {kappa:.2f})")
     for p in problems:
         print("NOTE:", p)
@@ -233,7 +273,7 @@ def fmt(x, nd=1):
     return "–" if pd.isna(x) else f"{x:.{nd}f}"
 
 
-def write_markdown(tok, summ, tab, po, kappa, problems, excluded):
+def write_markdown(tok, summ, tab, po, kappa, problems, excluded, have_vp=False):
     L = []
     L.append("# Inter-annotator agreement (reliability check, N4 / R8)\n")
     L.append("Made by `VOT_project_scripts/reliability.py` from the `seg` tiers only (no audio). "
@@ -268,6 +308,24 @@ def write_markdown(tok, summ, tab, po, kappa, problems, excluded):
                  f"{fmt(r.bias_ms)} | {fmt(r.loa_low_ms)} to {fmt(r.loa_high_ms)} | {fmt(r.pearson_r, 2)} | "
                  f"{fmt(r.ICC_A1, 2)}{ci} |")
 
+    if have_vp:
+        L.append("\n**Voicing proportion in the closure** (0 = silent closure, 1 = voiced all the way; "
+                 "measured by `measure_tokens.praat` on each annotator's boundaries, so differences come "
+                 "only from where B1 and B2 were put). MAD and bias are in proportion units.\n")
+        L.append("| tokens | n | MAD | median AD | max AD | within 0.1 | bias | LoA | r | ICC [95% CI] |")
+        L.append("|---|---|---|---|---|---|---|---|---|---|")
+        for sname in ["both cl (used in R)", "voiceless (p t k)", "voiced (b g)", "all"]:
+            r = summ[(summ.measure == "voicingProp") & (summ.subset == sname)].iloc[0]
+            ci = "" if pd.isna(r.ICC_CI_low) else f" [{r.ICC_CI_low:.2f}, {r.ICC_CI_high:.2f}]"
+            lab = sname + (" (cl and cl?)" if sname == "all" else "")
+            L.append(f"| {lab} | {int(r.n)} | {fmt(r.MAD_ms, 3)} | {fmt(r.median_AD_ms, 3)} | {fmt(r.max_AD_ms, 3)} | "
+                     f"{fmt(r['pct_within_0.1'], 0)}% | {fmt(r.bias_ms, 3)} | {fmt(r.loa_low_ms, 2)} to "
+                     f"{fmt(r.loa_high_ms, 2)} | {fmt(r.pearson_r, 2)} | {fmt(r.ICC_A1, 2)}{ci} |")
+        bigvp = tok[tok.voicingProp_diff.abs() > 0.2]
+        if len(bigvp):
+            L.append("\nDifferences larger than 0.2: " + "; ".join(
+                f"{r.file} {r.word} ({r.voicingProp_orig:.2f} / {r.voicingProp_check:.2f}, closure "
+                f"{r.clDur_orig:.0f} / {r.clDur_check:.0f} ms)" for _, r in bigvp.iterrows()) + ".")
     L.append("\n## 2. Boundaries\n")
     L.append("| boundary | n | MAD | median AD | max AD | ≤5 ms | ≤10 ms | ≤20 ms | bias |")
     L.append("|---|---|---|---|---|---|---|---|---|")
@@ -300,13 +358,14 @@ def write_markdown(tok, summ, tab, po, kappa, problems, excluded):
                                                for _, r in dis.iterrows()) + ".\n")
 
     L.append("## 5. Every token (original / re-annotation, ms)\n")
-    L.append("| file | word | label | VOT | Δ | closure | Δ | vowel | Δ | ΔB1 | ΔB2 | ΔB3 | ΔB4 |")
-    L.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|")
+    L.append("| file | word | label | VOT | Δ | closure | Δ | vowel | Δ | voicing prop. | ΔB1 | ΔB2 | ΔB3 | ΔB4 |")
+    L.append("|---|---|---|---|---|---|---|---|---|---|---|---|---|---|")
     for _, r in tok.iterrows():
         lab = r.label_orig if r.label_agree else f"**{r.label_orig} / {r.label_check}**"
         L.append(f"| {r.file} | {r.word} | {lab} | {r.VOT_orig:.1f} / {r.VOT_check:.1f} | {r.VOT_diff:+.1f} | "
                  f"{r.clDur_orig:.1f} / {r.clDur_check:.1f} | {r.clDur_diff:+.1f} | "
-                 f"{r.vDur_orig:.1f} / {r.vDur_check:.1f} | {r.vDur_diff:+.1f} | {r.B1_diff_ms:+.1f} | "
+                 f"{r.vDur_orig:.1f} / {r.vDur_check:.1f} | {r.vDur_diff:+.1f} | "
+                 f"{fmt(r.voicingProp_orig, 2)} / {fmt(r.voicingProp_check, 2)} | {r.B1_diff_ms:+.1f} | "
                  f"{r.B2_diff_ms:+.1f} | {r.B3_diff_ms:+.1f} | {r.B4_diff_ms:+.1f} |")
     big = tok.assign(maxd=tok[["B1_diff_ms", "B2_diff_ms", "B3_diff_ms", "B4_diff_ms"]].abs().max(axis=1))
     L.append(f"\nTokens with a boundary more than 20 ms apart: {int((big.maxd > 20).sum())} of {len(tok)}.\n")
@@ -322,7 +381,10 @@ def write_markdown(tok, summ, tab, po, kappa, problems, excluded):
              f"{v.MAD_ms:.1f} ms for VOT (Pearson r = {v.pearson_r:.2f}, ICC(A,1) = {v.ICC_A1:.2f}; voiceless "
              f"stops ICC = {vl.ICC_A1:.2f}, voiced stops ICC = {vv.ICC_A1:.2f}), {c.MAD_ms:.1f} ms for closure "
              f"duration (tokens labelled cl by both, n = {int(c.n)}, ICC = {c.ICC_A1:.2f}) and {w.MAD_ms:.1f} ms "
-             f"for vowel duration (ICC = {w.ICC_A1:.2f}). The burst (B2) was the most consistent boundary "
+             f"for vowel duration (ICC = {w.ICC_A1:.2f})"
+             + (f", and {g('voicingProp', 'both cl (used in R)').MAD_ms:.2f} for the proportion of voicing in "
+                f"the closure (ICC = {g('voicingProp', 'both cl (used in R)').ICC_A1:.2f})" if have_vp else "")
+             + f". The burst (B2) was the most consistent boundary "
              f"(median difference {g('B2', 'all').median_AD_ms:.1f} ms) and the vowel end (B4) the least "
              f"(mean {g('B4', 'all').MAD_ms:.1f} ms). The closure label (cl vs cl?) agreed for "
              f"{int(tok.label_agree.sum())} of {len(tok)} tokens ({100 * po:.0f}%, Cohen's kappa = {kappa:.2f}).\n")
@@ -333,7 +395,7 @@ def write_markdown(tok, summ, tab, po, kappa, problems, excluded):
         fh.write("\n".join(L) + "\n")
 
 
-def make_figure(tok, summ):
+def make_figure(tok, summ, have_vp=False):
     """07_figures/reliability_scatter.png: original vs re-annotation for VOT, closure, vowel."""
     try:
         import matplotlib
@@ -348,21 +410,29 @@ def make_figure(tok, summ):
     panels = [("VOT", "all", "VOT"),
               ("clDur", "both cl (used in R)", "Closure duration (cl in both versions)"),
               ("vDur", "all", "Vowel duration")]
-    fig, axes = plt.subplots(1, 3, figsize=(13, 5.4), layout="constrained")
+    if have_vp:
+        panels.append(("voicingProp", "both cl (used in R)", "Proportion of voicing in the closure (cl in both)"))
+        fig, axes = plt.subplots(2, 2, figsize=(10.5, 10.5), layout="constrained")
+        axes = axes.ravel()
+    else:
+        fig, axes = plt.subplots(1, 3, figsize=(13, 5.4), layout="constrained")
     for ax, (m, subset, title) in zip(axes, panels):
         d = tok if subset == "all" else tok[(tok.label_orig == "cl") & (tok.label_check == "cl")]
-        lim = max(d[f"{m}_orig"].max(), d[f"{m}_check"].max()) * 1.06
-        ax.plot([0, lim], [0, lim], ls="--", lw=1, color=ink2, zorder=1)
+        d = d.dropna(subset=[f"{m}_orig", f"{m}_check"])
+        lim = 1.05 if m == "voicingProp" else max(d[f"{m}_orig"].max(), d[f"{m}_check"].max()) * 1.06
+        ax.plot([-1, lim], [-1, lim], ls="--", lw=1, color=ink2, zorder=1)
         for checker, (col, mk) in style.items():
             for voicing, face in [("voiceless", col), ("voiced", "white")]:
                 dd = d[(d.checker == checker) & (d.voicing == voicing)]
                 ax.scatter(dd[f"{m}_orig"], dd[f"{m}_check"], s=42, marker=mk, facecolors=face,
                            edgecolors=col, linewidths=2, zorder=3)
         r = summ[(summ.measure == m) & (summ.subset == subset)].iloc[0]
-        ax.set_title(f"{title}\nn = {int(r.n)}, MAD = {r.MAD_ms:.1f} ms, ICC = {r.ICC_A1:.2f}",
+        unit, mad = ("", f"{r.MAD_ms:.2f}") if m == "voicingProp" else (" (ms)", f"{r.MAD_ms:.1f} ms")
+        ax.set_title(f"{title}\nn = {int(r.n)}, MAD = {mad}, ICC = {r.ICC_A1:.2f}",
                      fontsize=10, color=ink, loc="left")
-        ax.set_xlim(0, lim); ax.set_ylim(0, lim); ax.set_aspect("equal")
-        ax.set_xlabel("Owner's annotation (ms)", color=ink2); ax.set_ylabel("Re-annotation (ms)", color=ink2)
+        lo = -0.05 if m == "voicingProp" else 0
+        ax.set_xlim(lo, lim); ax.set_ylim(lo, lim); ax.set_aspect("equal")
+        ax.set_xlabel(f"Owner's annotation{unit}", color=ink2); ax.set_ylabel(f"Re-annotation{unit}", color=ink2)
         ax.grid(color=grid, lw=0.8); ax.set_axisbelow(True)
         for sp in ["top", "right"]:
             ax.spines[sp].set_visible(False)
@@ -374,7 +444,7 @@ def make_figure(tok, summ):
                Line2D([], [], marker="o", ls="", mec=ink2, mfc=ink2, mew=2, label="voiceless (filled)"),
                Line2D([], [], marker="o", ls="", mec=ink2, mfc="white", mew=2, label="voiced (hollow)"),
                Line2D([], [], ls="--", color=ink2, label="perfect agreement")]
-    fig.legend(handles=handles, loc="outside lower center", ncol=5, frameon=False, fontsize=9)
+    fig.legend(handles=handles, loc="outside lower center", ncol=3 if have_vp else 5, frameon=False, fontsize=9)
     out = os.path.join(ROOT, "07_figures", "reliability_scatter.png")
     fig.savefig(out, dpi=200)
     print("figure:", out)
