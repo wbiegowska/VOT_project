@@ -155,3 +155,37 @@ Notes for the Discussion:
 - Consistent with the PCA results (R4), VOT carries the bulk of the voicing contrast, while secondary
   cues (closure voicing in EN/PL, onset f0 in FA/PL) add modest group-specific weight without
   significantly improving overall discrimination.
+
+## R6 - wav2vec2 layers: PCA (10 dimensions) + Random Forest per layer (Ala)
+
+Pipeline (book ch. 7.4 and ch. 8.7): for each wav2vec2 layer (1-12, 768 dimensions from `w2v2_layers.csv`),
+principal components are extracted (`FactoMineR::PCA(..., scale.unit = TRUE, ncp = 10)`), and an
+out-of-bag Random Forest (`cforest_unbiased`, `ntree = 500`, `mtry = 3`, `seed = 42`) predicts stop
+voicing across all 240 tokens.
+Figure: `07_figures/R6_w2v2_layers.png`.
+
+| layer | OOB accuracy |
+|---|---|
+| 1 | 0.946 |
+| 2 | 0.954 |
+| 3 | 0.971 |
+| 4 | 0.988 |
+| 5 | 0.996 |
+| 6 | 0.996 |
+| 7 | 0.988 |
+| 8 | 0.996 |
+| 9 | 0.996 |
+| 10 | 0.988 |
+| 11 | 0.967 |
+| 12 | 0.983 |
+
+Draft text:
+
+> Out-of-bag voicing classification accuracy on the 10-dimensional PCA representations rises from
+> 94.6% in layer 1 and 95.4% in layer 2 to a peak of 99.6% across layers 5, 6, 8, and 9 (with a
+> slight dip at layer 11 to 96.7%), showing that middle-to-late wav2vec2 layers encode stop voicing
+> information very strongly. Compared with the per-group acoustic-cue Random Forests in R5 (87.0% for
+> Persian, 92.1% for Polish, and 96.6% for English with all cues), the top wav2vec2 layer PCs reach
+> higher overall accuracy across the pooled token set. Because these layer models are pooled across
+> all three speaker groups rather than fit separately per group, they capture overall voicing
+> separability rather than group-specific cue weighting.
