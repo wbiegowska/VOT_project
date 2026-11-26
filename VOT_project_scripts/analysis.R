@@ -93,6 +93,12 @@ for (g in c("EN", "PL", "FA")) {
   set.seed(42)
   vi <- varimp(all_cues$model, conditional = TRUE)
   print(sort(vi, decreasing = TRUE))
+  png(paste0("../07_figures/R5_varimp_", g, ".png"), width = 700, height = 450)
+  par(mar = c(5, 8, 4, 2))
+  barplot(sort(vi), horiz = TRUE, las = 1,
+          main = paste("Variable importance -", g),
+          xlab = "Conditional permutation importance")
+  dev.off()
 }
 
 # ---- 6. wav2vec2 layers: PCA (10 dimensions) + Random Forest per layer ---------------
@@ -107,8 +113,16 @@ acc <- map_dfr(sort(unique(w2v$layer)), function(L) {
   tibble(layer = L, accuracy = r$accuracy)
 })
 acc
-ggplot(acc, aes(layer, accuracy)) + geom_line() + geom_point() +
-  labs(x = "wav2vec2 layer", y = "Voicing classification accuracy (out-of-bag)")
+p_r6 <- ggplot(acc, aes(layer, accuracy)) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = 1:12) +
+  labs(x = "wav2vec2 layer", y = "Voicing classification accuracy (out-of-bag)",
+       title = "Voicing classification accuracy across wav2vec2 layers") +
+  theme_minimal()
+
+print(p_r6)
+ggsave("../07_figures/R6_w2v2_layers.png", p_r6, width = 6, height = 4, dpi = 300)
 
 # ---- 7. (Optional) OpenSMILE eGeMAPS features: Random Forest on all 88 features ------
 ege <- read_csv("egemaps_tokens.csv") %>%

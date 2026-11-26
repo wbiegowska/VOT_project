@@ -109,3 +109,49 @@ Notes for the Discussion:
 - f0rel behaves as expected for an onset f0 cue (higher f0 after voiceless stops), and it is
   largely independent of VOT (it loads on dimension 2).
 - The k-means differences are descriptive (no test); the numbers per group are small.
+
+## R5 - Random Forests per group: all cues vs VOT only (Ala)
+
+Models (book ch. 8.7): conditional inference Random Forests (`party::cforest`, `ntree = 500`, `seed = 42`),
+evaluated out-of-bag on the 175 complete-cue tokens (EN 58, PL 63, FA 54). For each group, a model
+with all 7 cues (`mtry = 3`) is compared against a baseline model with VOT alone (`mtry = 1`) via
+DeLong's ROC test (`pROC::roc.test`), followed by conditional permutation variable importance
+(`party::varimp(..., conditional = TRUE)`).
+Figures: `07_figures/R5_varimp_EN.png`, `07_figures/R5_varimp_PL.png`, `07_figures/R5_varimp_FA.png`.
+
+| group | n | VOT-only accuracy (AUC) | all-cues accuracy (AUC) | DeLong test |
+|---|---|---|---|---|
+| EN | 58 | 94.8% (0.949) | 96.6% (0.965) | Z = -1.00, p = .32 |
+| PL | 63 | 88.9% (0.889) | 92.1% (0.917) | Z = -1.43, p = .15 |
+| FA | 54 | 87.0% (0.870) | 87.0% (0.870) | Z = 0.00, p = 1.00 |
+
+Conditional permutation variable importance (accuracy drop):
+
+| cue | EN | PL | FA |
+|---|---|---|---|
+| VOT | 0.230 | 0.206 | 0.170 |
+| voicing proportion | 0.088 | 0.028 | 0.007 |
+| f0rel | 0.001 | 0.017 | 0.027 |
+| closure duration | -0.001 | 0.001 | 0.008 |
+| F1rel | -0.001 | 0.003 | 0.000 |
+| CPP | 0.000 | 0.001 | 0.001 |
+| HNR | -0.002 | 0.000 | -0.001 |
+
+Draft text:
+
+> Within each speaker group, Random Forests trained on VOT alone already classified stop voicing
+> with high out-of-bag accuracy (94.8% for EN, 88.9% for PL, and 87.0% for FA). Adding the six
+> secondary acoustic cues yielded small, statistically non-significant improvements in ROC AUC
+> (EN: 96.6%, Z = -1.00, p = .32; PL: 92.1%, Z = -1.43, p = .15; FA: 87.0%, Z = 0.00, p = 1.00).
+> Conditional permutation importance confirmed that VOT was the dominant cue in every group
+> (0.170-0.230), while secondary cue weighting differed across L1 backgrounds: closure voicing
+> proportion ranked second in English (0.088) and Polish (0.028, alongside f0rel at 0.017), whereas
+> relative onset pitch (f0rel, 0.027) outranked closure duration (0.008) and closure voicing (0.007)
+> in Persian. Voice-quality measures (HNR, CPP) and F1rel contributed virtually nothing in any group.
+
+Notes for the Discussion:
+- Out-of-bag testing still includes other tokens from the same speakers across trees, so accuracy may
+  be slightly optimistic compared with strict leave-one-speaker-out cross-validation (plan R5 "Watch out").
+- Consistent with the PCA results (R4), VOT carries the bulk of the voicing contrast, while secondary
+  cues (closure voicing in EN/PL, onset f0 in FA/PL) add modest group-specific weight without
+  significantly improving overall discrimination.
