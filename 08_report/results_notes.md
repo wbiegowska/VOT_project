@@ -53,3 +53,59 @@ Notes for the Discussion:
 - The marginal group effect for VOT comes from the Persian speakers (longer VOT than English).
 - Voicing proportion is a bounded proportion with many values at 1 (ceiling); the linear model is a
   simple first step (plan R3 "Watch out").
+
+## R4 - PCA and k-means
+
+Cues (7, scaled): VOT, closure duration, voicing proportion, f0rel, F1rel, HNR, CPP.
+175 tokens with all cues (EN 58, PL 63, FA 54); `cl?` words, missing f0 and the 4 short vowels
+are left out, and f0 jumps over 6 semitones count as missing (2 tokens).
+Figures: `07_figures/R4_scree.png`, `R4_biplot.png`, `R4_pca_groups.png`, `R4_kmeans.png`.
+
+| dimension | eigenvalue | % variance | cumulative % |
+|---|---|---|---|
+| 1 | 1.7 | 23.7 | 23.7 |
+| 2 | 1.5 | 20.8 | 44.6 |
+| 3 | 1.0 | 14.9 | 59.4 |
+| 4 | 1.0 | 13.9 | 73.3 |
+| 5 | 0.7 | 10.5 | 83.8 |
+
+Correlations of the cues with the first two dimensions:
+
+| cue | Dim 1 | Dim 2 |
+|---|---|---|
+| VOT | 0.75 | -0.35 |
+| closure duration | -0.33 | 0.31 |
+| voicing proportion | -0.66 | 0.24 |
+| f0rel | -0.06 | -0.77 |
+| F1rel | 0.39 | 0.04 |
+| HNR | 0.52 | 0.46 |
+| CPP | 0.36 | 0.61 |
+
+k-means, 2 clusters (cluster 1 = mostly voiced, cluster 2 = mostly voiceless):
+
+| group | voiced in cluster 1 | voiceless in cluster 2 | match with voicing |
+|---|---|---|---|
+| EN | 27 of 30 | 27 of 28 | 54/58 = 93% |
+| PL | 21 of 27 | 29 of 36 | 50/63 = 79% |
+| FA | 18 of 23 | 26 of 31 | 44/54 = 81% |
+| all | 66 of 80 | 82 of 95 | 148/175 = 85% |
+
+Draft text:
+
+> The first two principal components explained 44.6% of the variance, and four components had an
+> eigenvalue of at least 1, so the cues carry partly independent information rather than one
+> redundant voicing measure. Dimension 1 opposed VOT (r = 0.75) to the proportion of voicing in the
+> closure (r = -0.66); dimension 2 was mainly f0 at vowel onset relative to the midpoint (f0rel,
+> r = -0.77), together with CPP and HNR (0.61, 0.46). In the biplot, voiced and voiceless tokens
+> separate along the diagonal between these two dimensions: voiced tokens have more closure voicing,
+> voiceless tokens longer VOT and a higher f0 at vowel onset. CPP and HNR point at right angles to
+> this direction, so voice quality contributes little to the contrast. The three speaker groups
+> overlap completely in the PCA space. Without knowing the labels, k-means with two clusters
+> recovered the voicing category for 85% of the tokens: 93% for the English speakers but only 79%
+> for the Polish and 81% for the Persian speakers, so the contrast is less clearly separated in the
+> non-native speakers' productions.
+
+Notes for the Discussion:
+- f0rel behaves as expected for an onset f0 cue (higher f0 after voiceless stops), and it is
+  largely independent of VOT (it loads on dimension 2).
+- The k-means differences are descriptive (no test); the numbers per group are small.
