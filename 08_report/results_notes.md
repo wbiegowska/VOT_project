@@ -189,3 +189,21 @@ Draft text:
 > higher overall accuracy across the pooled token set. Because these layer models are pooled across
 > all three speaker groups rather than fit separately per group, they capture overall voicing
 > separability rather than group-specific cue weighting.
+
+## R7 - OpenSMILE eGeMAPS features (Ala)
+
+Model (book ch. 8.7): conditional inference Random Forest (`party::cforest`, `ntree = 500`,
+`mtry = round(sqrt(88)) = 9`, `seed = 42`) evaluated out-of-bag on all 88 standardized eGeMAPS
+acoustic features (`egemaps_tokens.csv`, n = 240 tokens pooled across groups).
+
+| feature set | tokens | OOB accuracy |
+|---|---|---|
+| R5: 7 hand-crafted cues (EN / PL / FA) | 175 (58 / 63 / 54) | 96.6% / 92.1% / 87.0% |
+| R6: wav2vec2 best layer PCs (layers 5, 6, 8, 9) | 240 (pooled) | 99.6% |
+| R7: OpenSMILE eGeMAPS (88 features) | 240 (pooled) | 90.0% |
+
+Draft text:
+
+> An out-of-bag Random Forest trained on the 88 generic OpenSMILE eGeMAPS features across all 240
+> tokens reached 90.0% accuracy, comparable to the per-group hand-crafted cue models in R5
+> (87.0%-96.6%) and substantially below the best wav2vec2 layer representations in R6 (99.6%).
