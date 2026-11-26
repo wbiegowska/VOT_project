@@ -32,6 +32,9 @@ dat <- tok %>%
          group   = factor(group, levels = c("EN", "PL", "FA")),   # English = reference group
          f0rel   = 12 * log2(f0_10 / f0_50),                       # f0 at onset vs midpoint, semitones
          F1rel   = bark(F1_10) - bark(F1_50),                      # F1 at onset vs midpoint, Bark
+         # a jump of more than 6 semitones between onset and midpoint is a pitch-tracking error
+         # (creaky voice), not speech: treat it as missing (2 tokens, polish32 kids, polish39 bags)
+         f0rel   = ifelse(abs(f0rel) > 6, NA, f0rel),
          # closures marked "cl?" (unclear start) get no closure measures
          clDur_ms    = ifelse(clLabel == "cl?", NA, clDur_ms),
          voicingProp = ifelse(clLabel == "cl?", NA, voicingProp))
